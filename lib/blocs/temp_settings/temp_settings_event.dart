@@ -7,4 +7,6 @@ abstract class TempSettingsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class TonggleTempUnitEvent extends TempSettingsEvent {}
+class TonggleTempUnitEvent extends TempSettingsEvent {
+  
+}
