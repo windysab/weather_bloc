@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recase/recase.dart';
 import 'package:weather_bloc/blocs/temp_settings/temp_settings_bloc.dart';
 import 'package:weather_bloc/blocs/weather/weather_bloc.dart';
 import 'package:weather_bloc/constants/constants.dart';
@@ -66,11 +67,20 @@ class _HomePageState extends State<HomePage> {
 
   Widget showIcon(String icon) {
     return FadeInImage.assetNetwork(
-        placeholder: 'assets/images/loading.gif',
-        image: 'http://$kIconHost/img/wn/$icon@4x.png',
-        width: 96,
-        height: 96,
-        );
+      placeholder: 'assets/images/loading.gif',
+      image: 'http://$kIconHost/img/wn/$icon@4x.png',
+      width: 96,
+      height: 96,
+    );
+  }
+
+  Widget formatText(String description) {
+    final formattedString = description.titleCase;
+    return Text(
+      formattedString,
+      style: const TextStyle(fontSize: 24.0),
+      textAlign: TextAlign.center,
+    );
   }
 
   Widget _showWeather() {
@@ -126,9 +136,35 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             const SizedBox(height: 60.0),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [],
+              children: [
+                Text(
+                  showTemperature(state.weather.temp),
+                  style: const TextStyle(
+                      fontSize: 30.0, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 40.0),
+                Text(
+                  showTemperature(state.weather.tempMin),
+                  style: const TextStyle(fontSize: 16.0),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 40.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Spacer(),
+                showIcon(state.weather.icon),
+                Expanded(
+                  flex: 3,
+                  child: formatText(state.weather.description),
+                ),
+                const Spacer()
+              ],
             )
           ],
         );
